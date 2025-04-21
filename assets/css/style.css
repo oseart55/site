@@ -2159,7 +2159,7 @@ textarea.form-input::-webkit-resizer {
 .bluesky-embed {
   font-size: 1rem;
   /* change to 0.9rem, 1.2rem, etc. */
-  max-width: 100%;
+  max-width: 50%;
   padding: 1em;
   line-height: 1.5;
   background-color: #f9f9f9;
