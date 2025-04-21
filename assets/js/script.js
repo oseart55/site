@@ -170,28 +170,3 @@ $.ajax({
     alert("error");
   }
 });
-
-$.ajax({
-  url: "https://bsky.app/profile/did:plc:alk7v47qxsarop6op3mipvv3/rss",
-  type: "POST",
-  crossDomain: true,
-  success: function (response) {
-    console.log(response)
-  },
-  error: function (xhr, status) {
-    alert("error");
-  }
-});
-
-$.ajax({
-  url: "https://mastodon.social/@matthewpetagara.rss",
-  type: "POST",
-  crossDomain: true,
-  success: function (response) {
-    console.log(response)
-  },
-  error: function (xhr, status) {
-    alert("error");
-  }
-});
-
