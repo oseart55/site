@@ -157,10 +157,3 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
-
-
-$.ajax({
-  url: 'https://x.com/MattPetagara',
-}).done(function(response) {
-  console.log(response);
-});
