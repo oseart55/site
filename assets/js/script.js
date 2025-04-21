@@ -157,16 +157,3 @@ for (let i = 0; i < navigationLinks.length; i++) {
 
   });
 }
-
-$.ajax({
-  url: "https://bsky.app/profile/did:plc:alk7v47qxsarop6op3mipvv3/rss",
-  type: "POST",
-  crossDomain: true,
-  success: function (response) {
-    var resp = JSON.parse(response)
-    alert(resp.status);
-  },
-  error: function (xhr, status) {
-    alert("error");
-  }
-});
