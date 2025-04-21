@@ -25,31 +25,55 @@ var simpleRSSPlugin = (function() {
 	}
 	// Callback function
 	var loops = 0;
+
 	function handleJSON(data) {
-		console.log(data)
-		if (data.feed && data.items) {
-			
-			var docFrag = document.createDocumentFragment();
-			for (var i = 0; i < data.items.length; i++) {
-				var e = data.items[i];
-				var tempNode = document.createElement('div');
-				var template = '<' + titleWrapper + '><a href="' + e.link + '">' + e.title + '</a></' + titleWrapper + '>' + e.content;
-                
-				if (addLink === 'false') {
-					template = '<' + titleWrapper + '>' + e.title + '</' + titleWrapper + '>' + e.content;
-				}
-				if (i < max) {
-					
-					tempNode.innerHTML = template;
-					
-					docFrag.appendChild(tempNode);
-				}
-			}
-			container = feedsNodes[loops];
-			container.appendChild(docFrag);
-			loops++;
-		}
-	}
+    if (data.feed && data.items) {
+        var docFrag = document.createDocumentFragment();
+        for (var i = 0; i < data.items.length; i++) {
+            var e = data.items[i];
+            console.log(e);
+
+            if (i < max) {
+                const guid = e.guid;
+                const link = e.link;
+                const content = e.content;
+                const pubDate = new Date(e.pubDate).toLocaleString();
+
+                const blockquote = document.createElement('blockquote');
+                blockquote.className = "bluesky-embed";
+                blockquote.setAttribute("data-bluesky-uri", guid);
+                // You may not have `cid` unless your feed includes it.
+                // For now we leave it out or optionally include it if available:
+                // blockquote.setAttribute("data-bluesky-cid", e.cid);
+                blockquote.setAttribute("data-bluesky-embed-color-mode", "system");
+
+                blockquote.innerHTML = `
+                    <p lang="en">${content}<br><br>
+                    <a href="${link}?ref_src=embed">[view post]</a></p>
+                    &mdash; <a href="${link}?ref_src=embed">${pubDate}</a>
+                `;
+
+                docFrag.appendChild(blockquote);
+            }
+        }
+
+        container = feedsNodes[loops];
+        container.appendChild(docFrag);
+
+        // Inject the BlueSky embed script only once
+        if (!document.getElementById("bluesky-embed-script")) {
+            const script = document.createElement("script");
+            script.id = "bluesky-embed-script";
+            script.src = "https://embed.bsky.app/static/embed.js";
+            script.async = true;
+            script.charset = "utf-8";
+            document.body.appendChild(script);
+        }
+
+        loops++;
+    }
+}
+
 	// Return function for use in global scope
 	return {
 		handleJSON:handleJSON
