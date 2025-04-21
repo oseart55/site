@@ -163,11 +163,11 @@ $.ajax({
   type: "POST",
   crossDomain: true,
   success: function (response) {
-      var resp = JSON.parse(response)
-      alert(resp.status);
+    var resp = JSON.parse(response)
+    alert(resp.status);
   },
   error: function (xhr, status) {
-      alert("error");
+    alert("error");
   }
 });
 
@@ -176,11 +176,10 @@ $.ajax({
   type: "POST",
   crossDomain: true,
   success: function (response) {
-      var resp = JSON.parse(response)
-      alert(resp.status);
+    console.log(response)
   },
   error: function (xhr, status) {
-      alert("error");
+    alert("error");
   }
 });
 
@@ -189,11 +188,10 @@ $.ajax({
   type: "POST",
   crossDomain: true,
   success: function (response) {
-      var resp = JSON.parse(response)
-      alert(resp.status);
+    console.log(response)
   },
   error: function (xhr, status) {
-      alert("error");
+    alert("error");
   }
 });
 
