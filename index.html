@@ -189,7 +189,7 @@
           </li>
 
           <li class="navbar-item">
-            <button class="navbar-link" data-nav-link>Blog</button>
+            <button class="navbar-link" data-nav-link>Social</button>
           </li>
 
           <li class="navbar-item">
@@ -994,22 +994,28 @@
         - #BLOG
       -->
 
-      <article class="blog" data-page="blog">
+      <article class="social" data-page="social">
 
         <header>
           <h2 class="h2 article-title">Social Posts</h2>
         </header>
         <!-- <img src="./assets/images/mem-cho_confused.gif" style="width: 90%; text-align: center;" alt="">
         <p class="project-category" style="text-align: center;">This page has no content yet :(</p> -->
-
+<!-- 
         <div data-rss-feed="https://bsky.app/profile/did:plc:alk7v47qxsarop6op3mipvv3/rss" data-rss-link-titles="false"
           data-rss-title-wrapper="h3" data-rss-max="5" style="width: 100%;">
         </div>
-        <!-- <section class="blog-posts">
 
-          <ul class="blog-posts-list">
+        <div data-rss-feed="https://mastodon.social/@matthewpetagara.rss" data-rss-link-titles="false"
+          data-rss-title-wrapper="h3" data-rss-max="5" style="width: 100%;" id="mastodon-feed">
+        </div> -->
+        
+        
+        <section class="blog-posts">
 
-            <li class="blog-post-item">
+          <ul class="blog-posts-list" id="social-posts">
+
+            <!-- <li class="blog-post-item">
               <a href="#">
 
                 <figure class="blog-banner-box">
@@ -1175,11 +1181,11 @@
                 </div>
 
               </a>
-            </li>
+            </li> -->
 
           </ul>
 
-        </section> -->
+        </section>
 
       </article>
 
@@ -1242,8 +1248,11 @@
   <!--
     - custom js link
   -->
+  <script data-allowed-prefixes="https://mastodon.social/" async src="https://mastodon.social/embed.js"></script>
+
   <script src="./assets/js/script.js"></script>
-  <script src="./assets/js/simpleRss.js"></script>
+  <!-- <script src="./assets/js/simpleRss.js"></script> -->
+  <script src="./assets/js/loadSocials.js"></script>
   <!--
     - ionicon link
   -->
