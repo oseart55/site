@@ -32,6 +32,8 @@
     - #MAIN
   -->
 
+  
+
   <main>
 
     <!--
@@ -153,7 +155,7 @@
           </li>
 
         </ul>
-
+        <div class="separator"></div>
       </div>
 
     </aside>
@@ -200,15 +202,11 @@
 
       </nav>
 
-
-
-
-
       <!--
         - #ABOUT
       -->
 
-      <article class="about  active" data-page="about">
+      <article class="about active" data-page="about">
 
         <header>
           <h2 class="h2 article-title">About me</h2>
@@ -530,7 +528,7 @@
         - #RESUME
       -->
 
-      <article class="resume" data-page="resume">
+      <article class="resume has-scrollbar" data-page="resume">
 
         <header>
           <h2 class="h2 article-title">Resume</h2>
@@ -999,9 +997,49 @@
         <header>
           <h2 class="h2 article-title">Social Posts</h2>
         </header>
+
+        <ul class="filter-list">
+
+          <li class="filter-item">
+            <button class="active" social-data-filter-btn>Mastodon</button>
+          </li>
+
+          <li class="filter-item">
+            <button class="active" social-data-filter-btn>BlueSky</button>
+          </li>
+        </ul>
+
+        <div class="filter-select-box">
+
+          <button class="filter-select" social-data-select>
+
+            <div class="select-value" social-data-selecct-value>Select category</div>
+
+            <div class="select-icon">
+              <ion-icon name="chevron-down"></ion-icon>
+            </div>
+
+          </button>
+
+          <ul class="select-list">
+
+            <li class="select-item">
+              <button social-data-select-item>Mastodon</button>
+            </li>
+
+            <li class="select-item">
+              <button social-data-select-item>BlueSky</button>
+            </li>
+
+            <!-- <li class="select-item">
+              <button social-data-select-item>Twitter</button>
+            </li> -->
+          </ul>
+
+        </div>
         <!-- <img src="./assets/images/mem-cho_confused.gif" style="width: 90%; text-align: center;" alt="">
         <p class="project-category" style="text-align: center;">This page has no content yet :(</p> -->
-<!-- 
+        <!-- 
         <div data-rss-feed="https://bsky.app/profile/did:plc:alk7v47qxsarop6op3mipvv3/rss" data-rss-link-titles="false"
           data-rss-title-wrapper="h3" data-rss-max="5" style="width: 100%;">
         </div>
@@ -1009,12 +1047,11 @@
         <div data-rss-feed="https://mastodon.social/@matthewpetagara.rss" data-rss-link-titles="false"
           data-rss-title-wrapper="h3" data-rss-max="5" style="width: 100%;" id="mastodon-feed">
         </div> -->
-        
-        
+
+
         <section class="blog-posts">
 
-          <ul class="blog-posts-list" id="social-posts">
-
+          <ul class="blog-posts-list has-scrollbar" id="mastodon-social-posts">
             <!-- <li class="blog-post-item">
               <a href="#">
 
@@ -1184,7 +1221,8 @@
             </li> -->
 
           </ul>
-
+          <ul class="blog-posts-list has-scrollbar hidden" id="bluesky-social-posts"></ul>
+          <!-- <ul class="blog-posts-list has-scrollbar hidden" id="twitter-social-posts"></ul> -->
         </section>
 
       </article>
@@ -1215,11 +1253,9 @@
 
           <h3 class="h3 form-title">Contact Form</h3>
 
-          <form action="https://formspree.io/f/mleqydgp" method="POST" class="form" data-form>
-
+          <form id="contactForm" class="form" data-form>
             <div class="input-wrapper">
-              <input type="text" name="fullname" class="form-input" placeholder="Full name" required data-form-input>
-
+              <input type="text" name="name" class="form-input" placeholder="Full name" required data-form-input>
               <input type="email" name="email" class="form-input" placeholder="Email address" required data-form-input>
             </div>
 
@@ -1232,18 +1268,58 @@
 
           </form>
 
+          <div id="responseMessage" class="message"></div> <!-- For showing success or error messages -->
+
         </section>
 
       </article>
 
-    </div>
 
+
+    </div>
+    <div id="admin-modal" class="admin-modal" style="display: none;">
+      <div class="admin-modal-content">
+        <span class="close-btn" onclick="closeAdminModal()">&times;</span> <!-- Close button -->
+
+        <h2>Admin Login</h2>
+
+        <!-- Login Form -->
+        <form id="loginForm" data-form>
+          <input type="text" name="username" placeholder="Username" required data-form-input>
+          <input type="password" name="password" placeholder="Password" required data-form-input>
+          <button type="submit" data-form-btn>
+            <span>Login</span>
+          </button>
+        </form>
+        <div id="responseMessageLogin" class="message"></div>
+
+        <form id="register-form" data-form style="display: none;">
+          <input type="text" name="username" placeholder="Username" required data-form-input>
+          <input type="password" name="password" placeholder="Password" required data-form-input>
+          <button type="submit" data-form-btn>
+            <span>Register</span>
+          </button>
+        </form>
+        <div id="responseMessageRegister" class="message"></div>
+        <!-- Toggle between login and register -->
+        <button id="toggle-btn" onclick="toggleForm()">Don't have an account?</button>
+      </div>
+    </div>
   </main>
 
 
+  <div class="messageModal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h3 class="modal-name"></h3>
+      <p><strong>Email:</strong> <span class="modal-email"></span></p>
+      <p><strong>Message:</strong></p>
+      <p class="modal-message"></p>
+      <p><small class="modal-date"></small></p>
+    </div>
+  </div>
 
-
-
+  <div id="toast-container"></div>
 
   <!--
     - custom js link
@@ -1252,12 +1328,16 @@
 
   <script src="./assets/js/script.js"></script>
   <!-- <script src="./assets/js/simpleRss.js"></script> -->
-  <script src="./assets/js/loadSocials.js"></script>
+  <script src="./assets/js/socialLoader.js"></script>
+  <!-- <script src="./assets/js/twitterLoader.js"></script> -->
+  <script src="./assets/js/contactForm.js"></script>
   <!--
     - ionicon link
   -->
   <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
   <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+
+
 </body>
 
 </html>
