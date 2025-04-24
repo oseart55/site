@@ -199,176 +199,110 @@ for (let i = 0; i < formInputs.length; i++) {
 
 window.onload = async function () {
   let displayBanner = false;
-  let checkMode = {
-    action: "settings",
-  }
-  const settings = await fetch('https://api.rantk.com/', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(checkMode)
-  });
-  const result = await settings.json();
-  if(result?.settings?.maintenance_mode == true){
+  const settings = await fetchData("settings", null, null);
+  if (settings?.settings?.maintenance_mode == true) {
     displayBanner = true;
     const body = document.body;
-    body.insertAdjacentHTML('afterbegin', result?.banner)
+    body.insertAdjacentHTML('afterbegin', settings?.banner)
   }
+  const result = await fetchData("content", getCookieValue("auth_token"), null) ?? null;
+  if (!result?.error) {
+    const mainContent = document.querySelector('.main-content');
+    const navBarList = document.querySelector('.navbar-list');
+    const signOutBtn = document.querySelector('.sidebar-info');
 
-  try {
-    if (checkCookie('auth_token')) {
-      const cookies = document.cookie.split(';');
-      for (let i = 0; i < cookies.length; i++) {
-        const cookie = cookies[i].trim();
-        if (cookie.startsWith('auth_token=')) {
+    mainContent.insertAdjacentHTML('beforeend', result?.content?.adminContent)
+    if (displayBanner) {
+      document.getElementById("show-maintenance-banner").checked = true;
+    }
+    navBarList.insertAdjacentHTML('beforeend', result?.content?.navBar);
+    signOutBtn.insertAdjacentHTML('afterbegin', result?.content?.signOutBtn)
+    document.getElementById('signOut').addEventListener("click", function () {
+      deleteCookie("auth_token");
+      location.reload();
+    });
+    document.getElementById("show-maintenance-banner").addEventListener("click", async function () {
+      let updateBanner = await fetchData("updatesetting", getCookieValue("auth_token"), { setting: "maintenance_mode", value: document.getElementById("show-maintenance-banner").checked ? "true" : "false" });
+      if (updateBanner.success) {
+        location.reload();
+      }
+    });
+    const adminCategory = document.querySelector("[admin-data-select]");
+    const adminSelectItems = document.querySelectorAll("[admin-data-select-item]");
+    const adminSelectValue = document.querySelector("[admin-data-selecct-value]");
+    const adminFilterBtn = document.querySelectorAll("[admin-data-filter-btn]");
 
-          let data = {
-            action: "content",
-            token: cookie.split("=")[1]
-          };
-          const res = await fetch('https://api.rantk.com/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(data)
-          });
-          const result = await res.json();
-          if (result?.error == "Invalid or expired token") {
-            throw new Error("Invalid or expired token");
-          }
-          if (result?.content) {
-            const mainContent = document.querySelector('.main-content');
-            const navBarList = document.querySelector('.navbar-list');
-            const signOutBtn = document.querySelector('.sidebar-info');
+    adminCategory.addEventListener("click", function () { elementToggleFunc(this); });
+    for (let i = 0; i < adminSelectItems.length; i++) {
+      adminSelectItems[i].addEventListener("click", function () {
+        let adminSelectedValue = this.innerText.toLowerCase();
+        adminSelectValue.innerText = this.innerText;
+        elementToggleFunc(adminCategory);
+        adminFilterFunc(adminSelectedValue);
+      });
+    }
 
-            mainContent.insertAdjacentHTML('beforeend', result?.content?.adminContent)
-            if(displayBanner){
-              document.getElementById("show-maintenance-banner").checked = true;
-            }
-            navBarList.insertAdjacentHTML('beforeend', result?.content?.navBar);
-            signOutBtn.insertAdjacentHTML('afterbegin', result?.content?.signOutBtn)
-            document.getElementById('signOut').addEventListener("click", function () {
-              deleteCookie("auth_token");
-              location.reload();
-            });
-            document.getElementById("show-maintenance-banner").addEventListener("click", async function () {
-              let updateBanner = {
-                action: "updatesetting",
-                token: cookie.split("=")[1],
-                setting: "maintenance_mode",
-                value: document.getElementById("show-maintenance-banner").checked ? "true" : "false"
-              };
-              const res = await fetch('https://api.rantk.com/', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(updateBanner)
-              });
-              const result = await res.json();
-              result?.success == true ? location.reload() : ""
-            });
+    const adminFilterItems = document.querySelectorAll("[admin-data-filter-item]");
+    const adminFilterFunc = function (selectedValue) {
+      if (selectedValue === "messages") {
+        getMessages();
+        document.getElementById("admin-messages").classList.remove("hidden");
+        document.getElementById("admin-settings").classList.add("hidden");
+      }
+      if (selectedValue === "settings") {
+        document.getElementById("admin-messages").classList.add("hidden");
+        document.getElementById("admin-settings").classList.remove("hidden");
+      }
+      for (let i = 0; i < adminFilterItems.length; i++) {
 
-            try {
-              const adminCategory = document.querySelector("[admin-data-select]");
-              const adminSelectItems = document.querySelectorAll("[admin-data-select-item]");
-              const adminSelectValue = document.querySelector("[admin-data-selecct-value]");
-              const adminFilterBtn = document.querySelectorAll("[admin-data-filter-btn]");
+        if (selectedValue === "all") {
+          adminFilterItems[i].classList.add("active");
+        } else if (selectedValue === adminFilterItems[i].dataset.category) {
+          adminFilterItems[i].classList.add("active");
+          adminCategory.classList.remove("active");
+        } else {
+          adminFilterItems[i].classList.remove("active");
+        }
 
-              adminCategory.addEventListener("click", function () { elementToggleFunc(this); });
+      }
+    }
+    // add event in all filter button items for large screen
+    let adminLastClickedBtn = adminFilterBtn[0];
 
-              for (let i = 0; i < adminSelectItems.length; i++) {
-                adminSelectItems[i].addEventListener("click", function () {
-                  let adminSelectedValue = this.innerText.toLowerCase();
-                  adminSelectValue.innerText = this.innerText;
-                  elementToggleFunc(adminCategory);
-                  adminFilterFunc(adminSelectedValue);
-                });
-              }
+    for (let i = 0; i < adminFilterBtn.length; i++) {
 
-              const adminFilterItems = document.querySelectorAll("[admin-data-filter-item]");
+      adminFilterBtn[i].addEventListener("click", function () {
 
-              const adminFilterFunc = function (selectedValue) {
-                if (selectedValue === "messages") {
-                  getMessages();
-                  document.getElementById("admin-messages").classList.remove("hidden");
-                  document.getElementById("admin-settings").classList.add("hidden");
-                }
-                if (selectedValue === "settings") {
-                  document.getElementById("admin-messages").classList.add("hidden");
-                  document.getElementById("admin-settings").classList.remove("hidden");
-                }
-                for (let i = 0; i < adminFilterItems.length; i++) {
+        let selectedValue = this.innerText.toLowerCase();
+        adminSelectValue.innerText = this.innerText;
+        adminFilterFunc(selectedValue);
+        adminLastClickedBtn.classList.remove("active");
+        this.classList.add("active");
+        adminLastClickedBtn = this;
+      });
+    }
+    const messages = await fetchData("getmessages", getCookieValue("auth_token"), null);
+    renderMessages(messages);
 
-                  if (selectedValue === "all") {
-                    adminFilterItems[i].classList.add("active");
-                  } else if (selectedValue === adminFilterItems[i].dataset.category) {
-                    adminFilterItems[i].classList.add("active");
-                    adminCategory.classList.remove("active");
-                  } else {
-                    adminFilterItems[i].classList.remove("active");
-                  }
+  }
+  const navigationLinks = document.querySelectorAll("[data-nav-link]");
+  const pages = document.querySelectorAll("[data-page]");
 
-                }
-
-              }
-
-              // add event in all filter button items for large screen
-              let adminLastClickedBtn = adminFilterBtn[0];
-
-              for (let i = 0; i < adminFilterBtn.length; i++) {
-
-                adminFilterBtn[i].addEventListener("click", function () {
-
-                  let selectedValue = this.innerText.toLowerCase();
-                  adminSelectValue.innerText = this.innerText;
-                  adminFilterFunc(selectedValue);
-                  adminLastClickedBtn.classList.remove("active");
-                  this.classList.add("active");
-                  adminLastClickedBtn = this;
-                });
-              }
-            }
-            catch (err) {
-
-            }
-          }
-          let getMsgs = {
-            action: "getmessages",
-            token: cookie.split("=")[1]
-          }
-          const msgs = await fetch('https://api.rantk.com/', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(getMsgs)
-          });
-
-          const msgResult = await msgs.json();
-          renderMessages(msgResult);
+  for (let i = 0; i < navigationLinks.length; i++) {
+    navigationLinks[i].addEventListener("click", function () {
+      for (let j = 0; j < pages.length; j++) {
+        if (this.innerHTML.toLowerCase() === pages[j].dataset.page) {
+          pages[j].classList.add("active");
+          navigationLinks[j].classList.add("active");
+          window.scrollTo(0, 0);
+        } else {
+          pages[j].classList.remove("active");
+          navigationLinks[j].classList.remove("active");
         }
       }
-      // ✅ Now that DOM is updated, attach nav link event listeners
-      const navigationLinks = document.querySelectorAll("[data-nav-link]");
-      const pages = document.querySelectorAll("[data-page]");
-
-      for (let i = 0; i < navigationLinks.length; i++) {
-        navigationLinks[i].addEventListener("click", function () {
-          for (let j = 0; j < pages.length; j++) {
-            if (this.innerHTML.toLowerCase() === pages[j].dataset.page) {
-              pages[j].classList.add("active");
-              navigationLinks[j].classList.add("active");
-              window.scrollTo(0, 0);
-            } else {
-              pages[j].classList.remove("active");
-              navigationLinks[j].classList.remove("active");
-            }
-          }
-        });
-      };
-    } else {
-      console.log('Token not found!');
-    }
-  } catch (err) {
-    deleteCookie("auth_token");
-    showToast("Please sign in again.");
-  }
-};
+    });
+  };
+}
 
 document.addEventListener('keydown', function (event) {
   // Detect Ctrl + Shift + A key combination
@@ -525,6 +459,20 @@ function showToast(message, duration = 3000) {
   }, duration);
 }
 
+function getCookieValue(name) {
+  const cookie = document.cookie.split(';').find(c => c.trim().startsWith(`${name}=`));
+  return cookie ? cookie.trim().split('=')[1] : null;
+}
+
 function deleteCookie(name) {
   document.cookie = name + "=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+}
+
+async function fetchData(action, token, extraData = {}) {
+  const response = await fetch('https://api.rantk.com/', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action, token, ...extraData })
+  });
+  return response.json();
 }
