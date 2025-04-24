@@ -318,7 +318,7 @@ window.onload = async function () {
 
                   let selectedValue = this.innerText.toLowerCase();
                   adminSelectValue.innerText = this.innerText;
-                  socialFilterFunc(selectedValue);
+                  adminFilterFunc(selectedValue);
                   adminLastClickedBtn.classList.remove("active");
                   this.classList.add("active");
                   adminLastClickedBtn = this;
