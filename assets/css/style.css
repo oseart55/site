@@ -163,7 +163,8 @@ html {
 
 body {
   background: var(--smoky-black);
-  overflow: hidden;
+  overflow-x: hidden; /* Only hides horizontal scroll */
+  overflow-y: auto;   /* Enables vertical scroll */
 }
 
 
