@@ -476,3 +476,37 @@ async function fetchData(action, token, extraData = {}) {
   });
   return response.json();
 }
+
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./assets/js/serviceWorker.js')
+      .then(registration => {
+        console.log('ServiceWorker registered: ', registration);
+      })
+      .catch(registrationError => {
+        console.log('ServiceWorker registration failed: ', registrationError);
+      });
+  });
+};
+
+let tapCount = 0;
+let tapTimeout;
+
+const logo = $(".avatar-box")[0];
+
+logo.addEventListener('click', (e) => {
+  e.preventDefault();
+  tapCount++;
+
+  clearTimeout(tapTimeout);
+  tapTimeout = setTimeout(() => {
+    tapCount = 0;
+  }, 5000); // Reset after 1 second if no new taps
+
+  if (tapCount >= 5) {
+    if (!checkCookie('auth_token')) {
+      const modal = document.getElementById('admin-modal');
+      modal.style.display === 'none' ? openAdminPanel() : closeAdminModal();
+    }
+  }
+});
