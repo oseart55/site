@@ -1,44 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Blog Post</title>
-  <link rel="stylesheet" href="./styles/navbar.css">
-  <link rel="stylesheet" href="./styles/blog.css">
-  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Blog Post</title>
+    <link rel="stylesheet" href="./styles/navbar.css">
+    <link rel="stylesheet" href="./styles/blog.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 </head>
+
 <body>
-  <div class="navbar">
-    <!-- Same navbar as blog.html -->
-  </div>
+    <div style="width: 100%; position: fixed; top: 0; left: 0; z-index: 1;">
+        <header class="navbar">
+            <nav class="links">
+                <a href="./">🏠 Home</a>
+                <a href="resume.html">📄 Resume</a>
+                <a href="blog.html">📝 Blog</a>
+                <a href="projects.html">💻 Projects</a>
+            </nav>
+        </header>
+    </div>
 
-  <main class="post-container">
-    <div id="post-content">Loading...</div>
-  </main>
+    <main class="post-container">
+        <div id="post-content">Loading...</div>
+    </main>
 
-  <script>
-    const params = new URLSearchParams(window.location.search);
-    const postFile = params.get("post");
+    <script>
+        const params = new URLSearchParams(window.location.search);
+        const postFile = params.get("post");
 
-    if (!postFile) {
-      document.getElementById("post-content").textContent = "No post specified.";
-    } else {
-      fetch(`./documents/blogs/${postFile}`)
-        .then(res => {
-          if (!res.ok) throw new Error("Post not found.");
-          return res.text();
-        })
-        .then(md => {
-          // Strip metadata if needed
-          const cleaned = md.replace(/<!--[\s\S]*?-->/, '').trim();
-          document.getElementById("post-content").innerHTML = marked.parse(cleaned);
-        })
-        .catch(err => {
-          document.getElementById("post-content").textContent = "Error loading post.";
-          console.error(err);
-        });
-    }
-  </script>
+        if (!postFile) {
+            document.getElementById("post-content").textContent = "No post specified.";
+        } else {
+            fetch(`./documents/blogs/${postFile}`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Post not found.");
+                    return res.text();
+                })
+                .then(md => {
+                    // Strip metadata if needed
+                    const cleaned = md.replace(/<!--[\s\S]*?-->/, '').trim();
+                        document.getElementById("post-content").innerHTML = marked.parse(cleaned);
+                })
+                .catch(err => {
+                    document.getElementById("post-content").textContent = "Error loading post.";
+                    console.error(err);
+                });
+        }
+    </script>
 </body>
+
 </html>
