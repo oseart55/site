@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    padding: 2em;
+    background: #f9f9f9;
+}
+
+form {
+    max-width: 800px;
+    margin: auto;
+}
+
+select,
+input[type="text"],
+button {
+    padding: 0.5em;
+    font-size: 1em;
+    margin-bottom: 1em;
+}
+
+.editor-toolbar {
+    z-index: 10;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+header a {
+    text-decoration: none;
+    color: #0077cc;
+    font-weight: bold;
+}
+
+.download-btn {
+    background-color: #0077cc;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #005fa3;
+}

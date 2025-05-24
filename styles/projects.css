@@ -1,0 +1,163 @@
+/* Base styles */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f9f9f9;
+    color: #333;
+    margin: 0;
+    padding: 2rem;
+    line-height: 1.6;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #2c3e50;
+}
+
+/* Blog post list styles */
+#blog-list {
+    list-style: none;
+    padding: 0;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+#blog-list li {
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+#blog-list li:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+#blog-list a {
+    text-decoration: none;
+    font-size: 1.2rem;
+    color: #3498db;
+}
+
+#blog-list a:hover {
+    text-decoration: underline;
+}
+
+/* Responsive tweaks */
+@media (max-width: 600px) {
+    body {
+        padding: 1rem;
+    }
+
+    #blog-list li {
+        padding: 1rem;
+    }
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1em;
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+}
+
+header a {
+    text-decoration: none;
+    color: #0077cc;
+    font-weight: bold;
+}
+
+.download-btn {
+    background-color: #0077cc;
+    color: white;
+    padding: 0.5em 1em;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.download-btn:hover {
+    background-color: #005fa3;
+}
+
+
+#project-list {
+  list-style: none;
+  padding: 0;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+#project-list li {
+  display: flex;
+  gap: 1rem;
+  background-color: white;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+  flex-wrap: wrap;
+}
+
+#project-list li:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+}
+
+#project-list img {
+  width: 120px;
+  height: auto;
+  border-radius: 4px;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.project-info {
+  flex: 1;
+}
+
+.project-info h2 {
+  margin: 0 0 0.5rem;
+  color: #2c3e50;
+}
+
+.project-info p {
+  margin: 0 0 0.5rem;
+}
+
+.project-info a {
+  color: #3498db;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.project-info a:hover {
+  text-decoration: underline;
+}
+
+/* Mobile tweaks */
+@media (max-width: 600px) {
+  #project-list li {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  #project-list img {
+    width: 100%;
+    max-width: 300px;
+  }
+
+  .project-info {
+    width: 100%;
+  }
+}
