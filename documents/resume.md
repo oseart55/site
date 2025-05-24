@@ -50,10 +50,6 @@ Focused on advancing the power of technology and innovation to serve and protect
 
 ### <span>California State University, East Bay, BA Geography</span> <span>2025 -- Present</span>
 
-  - GPA 4.0
-  - DB1101 - Basic SQL
-  - CS2011 - Java Introduction
-
 ## Skills
 
  - ArcGIS Enterprise
