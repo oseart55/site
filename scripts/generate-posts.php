@@ -1,6 +1,6 @@
 <?php
-$blog_dir = __DIR__ . '/../documents/blogs';
-$output_file = __DIR__ . '/../documents/blogs';
+$blog_dir = __DIR__ . '/documents/blogs';
+$output_file = __DIR__ . '/documents/blogs';
 
 $posts = [];
 
