@@ -4,11 +4,5 @@
     "title": "My First Blog Post",
     "date": "2025-05-24",
     "tags": ["tech", "personal"]
-  },
-  {
-    "file": "Second_Post.md",
-    "title": "Another Post",
-    "date": "2025-05-22",
-    "tags": ["code"]
   }
 ]
