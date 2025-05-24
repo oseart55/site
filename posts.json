@@ -1,0 +1,17 @@
+[
+    {
+        "file": "documents\/blogs\/First_Post.md",
+        "title": "My First Blog Post",
+        "date": "05-22-2025",
+        "tags": [
+            "javascript",
+            "webdev"
+        ]
+    },
+    {
+        "file": "documents\/blogs\/Second_Post.md",
+        "title": "My Second Blog Post",
+        "date": "05-23-2025",
+        "tags": []
+    }
+]
