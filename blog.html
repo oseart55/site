@@ -8,11 +8,11 @@
     <script defer src="main.js"></script>
     <link rel="stylesheet" href="./styles/navbar.css">
     <link rel="stylesheet" href="./styles/blog.css">
-    
+
 </head>
 
 <body>
-  <div style="width: 100%; position: fixed; top: 0; left: 0; z-index: 1;">
+    <div style="width: 100%; position: fixed; top: 0; left: 0; z-index: 1;">
         <header class="navbar">
             <nav class="links" style="display: flex; justify-content: center; gap: 1rem;">
                 <a href="./">🏠 Home</a>
@@ -46,7 +46,7 @@
                 const slug = post.file.replace(/^documents\/blogs\//, '').replace(/\.md$/, '');
                 const li = document.createElement("li");
                 const a = document.createElement("a");
-                a.href = `post.php?post=${encodeURIComponent(slug)}`;
+                a.href = `post.html?post=${encodeURIComponent(slug + '.md')}`;
                 a.textContent = post.title;
 
                 const date = document.createElement("span");
@@ -73,7 +73,7 @@
             renderPosts(filtered);
         }
 
-        fetch("get-posts.php")
+        fetch("./documents/blogs/posts.json")
             .then(res => {
                 if (!res.ok) throw new Error("Network error");
                 return res.json();
@@ -97,6 +97,7 @@
                 tagFilter.addEventListener("change", updateFilters);
             })
             .catch(err => console.error("Failed to load posts:", err));
+
     </script>
 </body>
 
