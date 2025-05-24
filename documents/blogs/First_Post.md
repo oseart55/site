@@ -19,7 +19,7 @@ This is my **first post**. I'm building this site using **vanilla HTML, CSS, and
 - Personal projects
 - Life and learning
 
-Thanks for stopping by! Feel free to check out my [resume](./documents/resume.html) or read more posts.
+Thanks for stopping by! Feel free to check out my [resume](./resume.html) or read more posts.
 
 ---
 
