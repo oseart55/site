@@ -104,3 +104,7 @@ header a {
 .download-btn:hover {
     background-color: #005fa3;
 }
+
+.post-container {
+    margin-top: 15px;
+}
