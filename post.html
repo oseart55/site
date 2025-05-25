@@ -43,6 +43,11 @@
         if (!postFile) {
             document.getElementById("post-content").textContent = "No post specified.";
         } else {
+
+            const titleFromFile = decodeURIComponent(postFile.replace(/\.md$/, ''));
+            document.title = titleFromFile.replace(/[_\-]/g, ' '); // Optional: make it prettier
+
+            
             fetch(`./documents/blogs/${postFile}`)
                 .then(res => {
                     if (!res.ok) throw new Error("Post not found.");
@@ -52,19 +57,21 @@
                     // Strip metadata if needed
                     const cleaned = md.replace(/<!--[\s\S]*?-->/, '').trim();
                         document.getElementById("post-content").innerHTML = marked.parse(cleaned);
+                    // Now load the Utterances script
+                    const utterances = document.createElement("script");
+                    utterances.src = "https://utteranc.es/client.js";
+                    utterances.setAttribute("repo", "oseart55/site");
+                    utterances.setAttribute("issue-term", "title");
+                    utterances.setAttribute("theme", "github-light");
+                    utterances.crossOrigin = "anonymous";
+                    utterances.async = true;
+                    document.body.appendChild(utterances);
                 })
                 .catch(err => {
                     document.getElementById("post-content").textContent = "Error loading post.";
                     console.error(err);
                 });
         }
-    </script>
-    <script src="https://utteranc.es/client.js"
-        repo="oseart55/site"
-        issue-term="pathname"
-        theme="github-light"
-        crossorigin="anonymous"
-        async>
     </script>
 </body>
 
