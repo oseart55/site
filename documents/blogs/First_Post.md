@@ -1,11 +1,11 @@
 <!--
 title: My First Blog Post
 date: 05-22-2025
-tags: javascript, webdev
+tags: javascript, webdev, introduction
 -->
 # My First Blog Post
 
-<h3 style="text-align: center;">Tags: javascript, webdev</h3>
+<h3 style="text-align: center;">Tags: javascript, webdev, introduction</h3>
 
 *Published on May 22, 2025*
 
