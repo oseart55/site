@@ -57,15 +57,24 @@
                     // Strip metadata if needed
                     const cleaned = md.replace(/<!--[\s\S]*?-->/, '').trim();
                         document.getElementById("post-content").innerHTML = marked.parse(cleaned);
-                    // Now load the Utterances script
-                    const utterances = document.createElement("script");
-                    utterances.src = "https://utteranc.es/client.js";
-                    utterances.setAttribute("repo", "oseart55/site");
-                    utterances.setAttribute("issue-term", "title");
-                    utterances.setAttribute("theme", "github-light");
-                    utterances.crossOrigin = "anonymous";
-                    utterances.async = true;
-                    document.body.appendChild(utterances);
+                    // Now load the Giscus script
+                    const giscus = document.createElement("script");
+                    giscus.src = "https://giscus.app/client.js";
+                    giscus.setAttribute("data-repo", "oseart55/site");
+                    giscus.setAttribute("data-repo-id", "R_kgDOMC8LMQ");
+                    giscus.setAttribute("data-category", "Announcements");
+                    giscus.setAttribute("data-category-id", "DIC_kwDOMC8LMc4CpYz5");
+                    giscus.setAttribute("data-mapping", "title");
+                    giscus.setAttribute("data-strict", "0");
+                    giscus.setAttribute("data-reactions-enabled", "1");
+                    giscus.setAttribute("data-emit-metadata", "1");
+                    giscus.setAttribute("data-input-position", "bottom");
+                    giscus.setAttribute("data-theme", "preferred_color_scheme");
+                    giscus.setAttribute("data-lang", "en");
+                    giscus.setAttribute("data-loading", "lazy");
+                    giscus.crossOrigin = "anonymous";
+                    giscus.async = true;
+                    document.body.appendChild(giscus);
                 })
                 .catch(err => {
                     document.getElementById("post-content").textContent = "Error loading post.";
