@@ -43,6 +43,11 @@
         if (!postFile) {
             document.getElementById("post-content").textContent = "No post specified.";
         } else {
+
+            const titleFromFile = decodeURIComponent(postFile.replace(/\.md$/, ''));
+            document.title = titleFromFile.replace(/[_\-]/g, ' '); // Optional: make it prettier
+
+            
             fetch(`./documents/blogs/${postFile}`)
                 .then(res => {
                     if (!res.ok) throw new Error("Post not found.");
