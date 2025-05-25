@@ -101,3 +101,12 @@ Thanks for stopping by! Feel free to check out my [resume](/resume) or read more
 ---
 
 *– Matthew*
+
+
+<script src="https://utteranc.es/client.js"
+        repo="oseart55/site"
+        issue-term="pathname"
+        theme="gruvbox-dark"
+        crossorigin="anonymous"
+        async>
+</script>
