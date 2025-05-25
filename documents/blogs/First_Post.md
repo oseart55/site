@@ -5,7 +5,7 @@ tags: javascript, webdev
 -->
 # My First Blog Post
 
-### Tags: javascript, webdev
+<h3 style="text-align: center;">Tags: javascript, webdev</h3>
 
 *Published on May 22, 2025*
 
