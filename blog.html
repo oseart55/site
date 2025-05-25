@@ -14,11 +14,11 @@
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C8MW1F3TEN"></script>
 <script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
 
-  gtag('config', 'G-C8MW1F3TEN');
+    gtag('config', 'G-C8MW1F3TEN');
 </script>
 
 <body>
@@ -55,13 +55,23 @@
                 const slug = post.file.replace(/^documents\/blogs\//, '').replace(/\.md$/, '');
                 const li = document.createElement("li");
                 const a = document.createElement("a");
-                a.href = `post.html?post=${encodeURIComponent(slug + '.md')}`;
+                const href = `post.html?post=${encodeURIComponent(slug + '.md')}`;
+                a.href = href;
                 a.textContent = post.title;
 
                 const date = document.createElement("span");
                 date.textContent = ` – ${post.date}`;
                 date.style.color = "#888";
                 date.style.marginLeft = "0.5em";
+
+                // Make the entire li clickable
+                li.style.cursor = "pointer";
+                li.addEventListener("click", () => {
+                    window.location.href = href;
+                });
+
+                // Prevent double navigation when clicking the link directly
+                a.addEventListener("click", e => e.stopPropagation());
 
                 li.appendChild(a);
                 li.appendChild(date);
