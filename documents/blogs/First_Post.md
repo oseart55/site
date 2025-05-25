@@ -5,6 +5,8 @@ tags: javascript, webdev
 -->
 # My First Blog Post
 
+### Tags: javascript, webdev
+
 *Published on May 22, 2025*
 
 ---
