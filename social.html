@@ -48,8 +48,8 @@
 
     <div style="margin-top:50px; text-align: center;">
         <select id="social-select" class="filter">
-            <option value="twitter">Twitter</option>
             <option value="bsky">Bluesky</option>
+            <option value="twitter">Twitter</option>
         </select>
     </div>
 
@@ -84,6 +84,39 @@
         // Initialize
         showSelectedFeed();
         select.addEventListener('change', showSelectedFeed);
+
+        const twitterContainer = document.getElementById('twitter');
+        const twitterOption = document.querySelector('#social-select option[value="twitter"]');
+        let loaded = false;
+
+        // Observe for iframe insertion
+        const observer = new MutationObserver((mutationsList, observer) => {
+            for (const mutation of mutationsList) {
+                for (const node of mutation.addedNodes) {
+                    if (node.tagName === 'IFRAME') {
+                        loaded = true;
+                        console.log('✅ Twitter embed loaded.');
+                        observer.disconnect();
+                        return;
+                    }
+                }
+            }
+        });
+
+        observer.observe(twitterContainer, {
+            childList: true,
+            subtree: true,
+        });
+
+        // Timeout fallback
+        setTimeout(() => {
+            if (!loaded) {
+                console.warn('❌ Twitter embed failed, probably not signed in. Removing option from select.');
+                if (twitterOption) {
+                    twitterOption.remove();
+                }
+            }
+        }, 3000);
     </script>
 </body>
 
