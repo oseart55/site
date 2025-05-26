@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Social Media</title>
+    <link rel="stylesheet" href="./styles/navbar.css">
+    <style>
+        .embed-container {
+            margin-top: 45px;
+            display: none;
+            /* hide all by default */
+        }
+
+        .filter {
+            padding: 0.5em 1em;
+            font-size: 1rem;
+            margin: 1em 0.5em 1.5em 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            background-color: #fff;
+            box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+    </style>
+</head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C8MW1F3TEN"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-C8MW1F3TEN');
+</script>
+
+<body>
+    <div style="width: 100%; position: fixed; top: 0; left: 0; z-index: 1;">
+        <header class="navbar">
+            <nav class="links" style="display: flex; justify-content: center; gap: 1rem;">
+                <a href="./">🏠 Home</a>
+                <a href="/resume">📄 Resume</a>
+                <a href="/projects">💻 Projects</a>
+            </nav>
+        </header>
+    </div>
+
+    <div style="margin-top:50px; text-align: center;">
+        <select id="social-select" class="filter">
+            <option value="twitter">Twitter</option>
+            <option value="bsky">Bluesky</option>
+        </select>
+    </div>
+
+    <!-- Bluesky Embed -->
+    <div class="embed-container bsky-embed-container" id="bsky">
+        <script type="module" src="https://cdn.jsdelivr.net/npm/bsky-embed/dist/bsky-embed.es.js" async></script>
+        <bsky-embed username="matthewpetagara.bsky.social" limit="10" load-more="true"
+            custom-styles=".border-slate-300 { border-color: black; }"></bsky-embed>
+    </div>
+
+    <!-- Twitter Embed -->
+    <div class="embed-container twitter-embed-container" id="twitter"
+        style="display: flex; align-items: center; width: 100%;">
+        <a class="twitter-timeline" href="https://twitter.com/MattPetagara?ref_src=twsrc%5Etfw"></a>
+        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+    </div>
+
+    <script>
+        const select = document.getElementById('social-select');
+        const containers = {
+            bsky: document.getElementById('bsky'),
+            twitter: document.getElementById('twitter')
+        };
+
+        function showSelectedFeed() {
+            const selected = select.value;
+            for (const key in containers) {
+                containers[key].style.display = key === selected ? 'grid' : 'none';
+            }
+        }
+
+        // Initialize
+        showSelectedFeed();
+        select.addEventListener('change', showSelectedFeed);
+    </script>
+</body>
+
+</html>
