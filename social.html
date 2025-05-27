@@ -60,13 +60,6 @@
             custom-styles=".border-slate-300 { border-color: black; }"></bsky-embed>
     </div>
 
-    <!-- Twitter Embed -->
-    <div class="embed-container twitter-embed-container" id="twitter"
-        style="display: flex; align-items: center; width: 100%;">
-        <a class="twitter-timeline" href="https://twitter.com/MattPetagara?ref_src=twsrc%5Etfw"></a>
-        <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-    </div>
-
     <script>
         const select = document.getElementById('social-select');
         const containers = {
@@ -85,38 +78,7 @@
         showSelectedFeed();
         select.addEventListener('change', showSelectedFeed);
 
-        const twitterContainer = document.getElementById('twitter');
-        const twitterOption = document.querySelector('#social-select option[value="twitter"]');
-        let loaded = false;
-
-        // Observe for iframe insertion
-        const observer = new MutationObserver((mutationsList, observer) => {
-            for (const mutation of mutationsList) {
-                for (const node of mutation.addedNodes) {
-                    if (node.tagName === 'IFRAME') {
-                        loaded = true;
-                        console.log('✅ Twitter embed loaded.');
-                        observer.disconnect();
-                        return;
-                    }
-                }
-            }
-        });
-
-        observer.observe(twitterContainer, {
-            childList: true,
-            subtree: true,
-        });
-
-        // Timeout fallback
-        setTimeout(() => {
-            if (!loaded) {
-                console.warn('❌ Twitter embed failed, probably not signed in. Removing option from select.');
-                if (twitterOption) {
-                    twitterOption.remove();
-                }
-            }
-        }, 3000);
+        
     </script>
 </body>
 
