@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Photo Album</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css" rel="stylesheet" />
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #fafafa;
+    }
+
+    h1 {
+      text-align: center;
+      padding: 1rem;
+      margin: 0;
+    }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 14px;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .gallery a img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease;
+    }
+
+    .gallery a img:hover {
+      transform: scale(1.03);
+    }
+
+    #loading {
+      text-align: center;
+      padding: 1rem;
+      font-size: 1.1rem;
+      color: #666;
+    }
+  </style>
+  <link rel="stylesheet" href="./styles/navbar.css">
+
+</head>
+
+<body>
+
+  <div style="width: 100%; position: fixed; top: 0; left: 0; z-index: 1;">
+    <header class="navbar">
+      <nav class="links">
+        <a href="./">🏠 Home</a>
+        <a href="/resume">📄 Resume</a>
+        <a href="/blog">📝 Blog</a>
+        <a href="/projects">💻 Projects</a>
+        <a href="/social">💬 Social</a>
+      </nav>
+    </header>
+  </div>
+
+  <h1 style="margin-top: 35px;">Photo Album</h1>
+  <div class="gallery" id="gallery">Loading...</div>
+  <div id="loading"></div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox-plus-jquery.min.js"></script>
+
+  <script>
+    const gallery = document.getElementById('gallery');
+    const loading = document.getElementById('loading');
+    const apiUrl = 'https://api.github.com/repos/oseart55/site/contents/public/photos';
+
+    let allImages = [];   // Store all image files fetched from GitHub
+    let batchSize = 10;   // Number of images to load each scroll
+    let currentIndex = 0; // Current loaded index
+
+    // Fetch images metadata once
+    fetch(apiUrl)
+      .then(res => res.json())
+      .then(data => {
+        // Filter image files only
+        allImages = data.filter(file =>
+          file.type === 'file' && file.download_url.match(/\.(jpg|jpeg|png|gif)$/i)
+        );
+
+        if (allImages.length === 0) {
+          gallery.innerHTML = 'No images found.';
+          return;
+        }
+
+        gallery.innerHTML = '';  // Clear loading message
+        loadNextBatch();        // Load first batch
+      })
+      .catch(err => {
+        console.error('Error fetching images:', err);
+        gallery.innerHTML = '⚠️ Failed to load images.';
+      });
+
+    // Load next batch of images into gallery
+    function loadNextBatch() {
+      if (currentIndex >= allImages.length) {
+        loading.textContent = 'No more images.';
+        return;
+      }
+
+      const batch = allImages.slice(currentIndex, currentIndex + batchSize);
+      batch.forEach(file => {
+        const link = document.createElement('a');
+        link.href = file.download_url;
+        link.setAttribute('data-lightbox', 'photo-album');
+        link.setAttribute('data-title', file.name);
+
+        const img = document.createElement('img');
+        img.src = file.download_url;
+        img.alt = file.name;
+        img.loading = 'lazy';
+
+        link.appendChild(img);
+        gallery.appendChild(link);
+      });
+
+      currentIndex += batchSize;
+
+      if (currentIndex < allImages.length) {
+        loading.textContent = 'Scroll down to load more images...';
+      } else {
+        loading.textContent = 'All images loaded.';
+      }
+    }
+
+    // Detect scroll near bottom to load more
+    window.addEventListener('scroll', () => {
+      if (loading.textContent === 'All images loaded.') return;
+
+      const scrollPosition = window.innerHeight + window.scrollY;
+      const nearBottom = document.body.offsetHeight - 100;
+
+      if (scrollPosition >= nearBottom) {
+        loadNextBatch();
+      }
+    });
+  </script>
+</body>
+
+</html>
