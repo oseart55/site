@@ -13,7 +13,7 @@
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-C8MW1F3TEN"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
+  function gtag() { dataLayer.push(arguments); }
   gtag('js', new Date());
 
   gtag('config', 'G-C8MW1F3TEN');
@@ -22,12 +22,16 @@
 <body>
   <div style="width: 100%; position: fixed; top: 0; left: 0; z-index: 1;">
     <header class="navbar">
-      <nav class="links" style="display: flex; justify-content: center; gap: 1rem;">
-        <a href="./">🏠 Home</a>
-        <a href="/resume">📄 Resume</a>
-        <a href="/blog">📝 Blog</a>
-        <a href="/social">💬 Social</a>
-        <a href="/photos">📷 Photos</a>
+      <nav class="links">
+        <select id="nav-select" onchange="location.href=this.value;">
+          <option disabled selected>Go to...</option>
+          <option value="/">🏠 Home</option>
+          <option value="/blog">📝 Blog</option>
+          <option value="/resume">📄 Resume</option>
+          <option value="/projects">💻 Projects</option>
+          <option value="/social">💬 Social</option>
+          <option value="/photos">📷 Photos</option>
+        </select>
       </nav>
     </header>
   </div>
